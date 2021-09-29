@@ -1,5 +1,8 @@
 Config = {}
 
+Config.AutoCloseDoors = false
+Config.DurationBeforeClosing = 2500 -- Milliseconds
+
 Config.Doors = {
 	-- Stripclub
 	{
