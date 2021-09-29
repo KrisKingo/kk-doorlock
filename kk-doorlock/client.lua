@@ -42,7 +42,7 @@ AddEventHandler('kk-doorlock:initialize', function(allDoors)
 
     while true do
 		Citizen.Wait(0)
-		local playerCoords, awayFromDoors = GetEntityCoords(GetPlayerPed(-1)), true
+		local playerCoords, awayFromDoors = GetEntityCoords(PlayerPedId()), true
 
 		for k,doorID in ipairs(Config.Doors) do
 			local distance
@@ -116,11 +116,11 @@ end
 
 RegisterNetEvent('lockpicks:UseLockpick')
 AddEventHandler('lockpicks:UseLockpick', function()
-	local ped = GetPlayerPed(-1)
+	local ped = PlayerPedId()
 	local pos = GetEntityCoords(ped)
 	QBCore.Functions.TriggerCallback('QBCore:HasItem', function(result)
 		for k, v in pairs(Config.Doors) do
-			local dist = GetDistanceBetweenCoords(pos, Config.Doors[k].textCoords.x, Config.Doors[k].textCoords.y, Config.Doors[k].textCoords.z)
+			local dist = #(pos-vector3(Config.Doors[k].textCoords.x, Config.Doors[k].textCoords.y, Config.Doors[k].textCoords.z))
 			if dist < 1.5 then
 				if Config.Doors[k].pickable then
 					if Config.Doors[k].locked then
@@ -225,8 +225,8 @@ end)
 
 function openDoorAnim()
     loadAnimDict("anim@heists@keycard@") 
-    TaskPlayAnim( GetPlayerPed(-1), "anim@heists@keycard@", "exit", 5.0, 1.0, -1, 16, 0, 0, 0, 0 )
+    TaskPlayAnim(PlayerPedId(), "anim@heists@keycard@", "exit", 5.0, 1.0, -1, 16, 0, 0, 0, 0 )
 	SetTimeout(400, function()
-		ClearPedTasks(GetPlayerPed(-1))
+		ClearPedTasks(PlayerPedId())
 	end)
 end
