@@ -53,23 +53,23 @@ AddEventHandler('kk-doorlock:initialize', function(allDoors)
 				local isAuthorized = IsAuthorized(doorID)
 				if isAuthorized then
 					if doorID.locked then
-						displayText = "~w~E~w~ - ~r~Låst"
+						displayText = "~w~E~w~ - ~r~Locked"
 					elseif not doorID.locked then
-						displayText = "~w~E~w~ - ~g~Ulåst"
+						displayText = "~w~E~w~ - ~g~Unlocked"
 					end
 				elseif not isAuthorized then
 					if doorID.locked then
-						displayText = "~r~Låst"
+						displayText = "~r~Locked"
 					elseif not doorID.locked then
-						displayText = "~g~Ulåst"
+						displayText = "~g~Unlocked"
 					end
 				end
 
 				if doorID.locking then
 					if doorID.locked then
-						displayText = "Åbner.."
+						displayText = "Opening.."
 					else
-						displayText = "Låser.."
+						displayText = "Locking.."
 					end
 				end
 
@@ -122,13 +122,13 @@ AddEventHandler('lockpicks:UseLockpick', function()
 							closestDoorKey, closestDoorValue = k, v
 							TriggerEvent('qb-lockpick:client:openLockpick', lockpickFinish)
 						else
-							QBCore.Functions.Notify("Du mangler et værktøjssæt..", "error")
+							QBCore.Functions.Notify("You don't have a screwdriverset..", "error")
 						end
 					else
-						QBCore.Functions.Notify('Døren er allerede låst op??', 'error', 2500)
+						QBCore.Functions.Notify('The door is already unlocked?', 'error', 2500)
 					end
 				else
-					QBCore.Functions.Notify('Dørlåsen er for stærk', 'error', 2500)
+					QBCore.Functions.Notify('The doorlock is too strong', 'error', 2500)
 				end
 			end
 		end
@@ -140,7 +140,7 @@ function lockpickFinish(success)
 		QBCore.Functions.Notify('Succes!', 'success', 2500)
 		setDoorLocking(closestDoorValue, closestDoorKey)
     else
-        QBCore.Functions.Notify('Fejlede..', 'error', 2500)
+        QBCore.Functions.Notify('Failed..', 'error', 2500)
     end
 end
 
