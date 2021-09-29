@@ -8,14 +8,20 @@ Citizen.CreateThread(function()
 end)
 
 RegisterNetEvent('kk-doorlock:client:updateState')
-AddEventHandler('kk-doorlock:client:updateState', function(doorId, state)
+AddEventHandler('kk-doorlock:client:updateState', function(doorId, state, forced)
     Config.Doors[doorId].locked = state
     if Config.Doors[doorId].doors ~= nil then
         local doorsId = doorId*1000
-        DoorSystemSetDoorState(doorsId+1, state and 1 or 0)
-        DoorSystemSetDoorState(doorsId+2, state and 1 or 0)
+	DoorSystemSetDoorState(doorsId+1, state and 1 or 0, forced)
+	DoorSystemSetDoorState(doorsId+2, state and 1 or 0, forced)
     else
-        DoorSystemSetDoorState(doorId, state and 1 or 0)
+	if forced then
+		if state then
+			DoorSystemSetDoorState(doorId, 4, 0, true)
+		end
+	else
+		DoorSystemSetDoorState(doorId, state and 1 or 0)
+	end
     end
 end)
 
@@ -150,6 +156,13 @@ function setDoorLocking(doorId, key)
     SetTimeout(400, function()
         doorId.locking = false
 		TriggerServerEvent('kk-doorlock:server:updateState', key)
+		if Config.AutoCloseDoors then
+			SetTimeout(Config.DurationBeforeClosing, function()
+				if DoorSystemGetDoorState(key) == 0 then
+					TriggerServerEvent('kk-doorlock:server:updateState', key, true)
+				end
+			end)
+		end
 	end)
 end
 
