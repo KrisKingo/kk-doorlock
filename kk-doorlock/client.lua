@@ -37,12 +37,26 @@ AddEventHandler('kk-doorlock:initialize', function(allDoors)
     for doorId, door in pairs(allDoors) do
         if door.doors ~= nil then
             local doorsId = doorId*1000
-            AddDoorToSystem(doorsId+1, GetHashKey(door.doors[1].objName), door.doors[1].objCoords)
-            AddDoorToSystem(doorsId+2, GetHashKey(door.doors[2].objName), door.doors[2].objCoords)
+		if type(door.doors[1].objName) == "number" then
+			AddDoorToSystem(doorsId+1, door.doors[1].objName, door.doors[1].objCoords)
+		else
+			AddDoorToSystem(doorsId+1, GetHashKey(door.doors[1].objName), door.doors[1].objCoords)
+		end
+
+		if type(door.doors[2].objName) == "number" then
+			AddDoorToSystem(doorsId+2, door.doors[2].objName, door.doors[2].objCoords)
+		else
+			AddDoorToSystem(doorsId+2, GetHashKey(door.doors[2].objName), door.doors[2].objCoords)
+		end
+
             DoorSystemSetDoorState(doorsId+1, door.locked and 1 or 0)
             DoorSystemSetDoorState(doorsId+2, door.locked and 1 or 0)
         else
-            AddDoorToSystem(doorId, GetHashKey(door.objName), door.objCoords)
+		if type(door.objName) == "number" then
+			AddDoorToSystem(doorId, door.objName, door.objCoords)
+		else
+			AddDoorToSystem(doorId, GetHashKey(door.objName), door.objCoords)
+		end
             DoorSystemSetDoorState(doorId, door.locked and 1 or 0)
         end
     end
@@ -165,8 +179,14 @@ function setDoorLocking(doorId, key)
 		TriggerServerEvent('kk-doorlock:server:updateState', key)
 		if Config.AutoCloseDoors then
 			SetTimeout(Config.DurationBeforeClosing, function()
-				if DoorSystemGetDoorState(key) == 0 then
-					TriggerServerEvent('kk-doorlock:server:updateState', key, true)
+				if Config.Doors[key].doors ~= nil then
+					if DoorSystemGetDoorState(key*1000+1) == 0 then
+						TriggerServerEvent('kk-doorlock:server:updateState', key, true)
+					end
+				else
+					if DoorSystemGetDoorState(key) == 0 then
+						TriggerServerEvent('kk-doorlock:server:updateState', key, true)
+					end
 				end
 			end)
 		end
