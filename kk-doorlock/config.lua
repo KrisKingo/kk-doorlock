@@ -29,4 +29,23 @@ Config.Doors = {
 		pickable = true,
 		distance = 2.0,
 	},
+	{ -- This is a double door
+		textCoords = vector3(-1516.904296875, 851.21319580078, 181.59616088867),
+		authorizedJobs = {},
+		authorizedGang = {},
+		locking = false,
+		locked = true,
+		pickable = true,
+		distance = 2.0,
+		doors = {
+			{
+				objName = 'prop_doormaf', -- The name
+				objCoords = vector3(-1517.3432617188, 851.23101806641, 181.59596252441), -- The coordinates to the door
+			},
+			{
+				objName = 'prop_doormaf',
+				objCoords = vector3(-1516.3651123047, 850.94250488281, 181.59620666504),
+			},
+		}
+	},
 }
