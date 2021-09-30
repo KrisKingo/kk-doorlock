@@ -12,8 +12,15 @@ AddEventHandler('kk-doorlock:client:updateState', function(doorId, state, forced
     Config.Doors[doorId].locked = state
     if Config.Doors[doorId].doors ~= nil then
         local doorsId = doorId*1000
-	DoorSystemSetDoorState(doorsId+1, state and 1 or 0, forced)
-	DoorSystemSetDoorState(doorsId+2, state and 1 or 0, forced)
+	if forced then
+		if state then
+			DoorSystemSetDoorState(doorsId+1, 4, 0, true)
+			DoorSystemSetDoorState(doorsId+2, 4, 0, true)
+		end
+	else
+		DoorSystemSetDoorState(doorsId+1, state and 1 or 0, forced)
+		DoorSystemSetDoorState(doorsId+2, state and 1 or 0, forced)
+	end
     else
 	if forced then
 		if state then
