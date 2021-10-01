@@ -181,11 +181,11 @@ function setDoorLocking(doorId, key)
 			SetTimeout(Config.DurationBeforeClosing, function()
 				if Config.Doors[key].doors ~= nil then
 					if DoorSystemGetDoorState(key*1000+1) == 0 then
-						TriggerServerEvent('kk-doorlock:server:updateState', key, true)
+						TriggerServerEvent('kk-doorlock:server:updateState', key, Config.ForceAutoCloseDoors or false)
 					end
 				else
 					if DoorSystemGetDoorState(key) == 0 then
-						TriggerServerEvent('kk-doorlock:server:updateState', key, true)
+						TriggerServerEvent('kk-doorlock:server:updateState', key, Config.ForceAutoCloseDoors or false)
 					end
 				end
 			end)
