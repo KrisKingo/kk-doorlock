@@ -1,6 +1,7 @@
 Config = {}
 
 Config.AutoCloseDoors = false
+Config.ForceAutoCloseDoors = true -- If the door should insta close
 Config.DurationBeforeClosing = 2500 -- Milliseconds
 
 Config.Doors = {
