@@ -1,11 +1,4 @@
-QBCore = nil
-
-Citizen.CreateThread(function()
-	while QBCore == nil do
-		TriggerEvent('QBCore:GetObject', function(obj) QBCore = obj end)
-		Citizen.Wait(0)
-	end
-end)
+local QBCore = exports['qb-core']:GetCoreObject()
 
 RegisterNetEvent('kk-doorlock:client:updateState')
 AddEventHandler('kk-doorlock:client:updateState', function(doorId, state, forced)
