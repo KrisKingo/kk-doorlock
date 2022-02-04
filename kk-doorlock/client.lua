@@ -201,13 +201,21 @@ function IsAuthorized(doorID)
 
 
     if not doorID.IsAuthorized then
-        for _,job in pairs(doorID.authorizedJobs) do
-            if job == PlayerData.job.name then
-                doorID.IsAuthorized = true
-                return true
-            end
-        end
-
+	if #doorID.authorizedJobs > 1 then
+		for i = 1, #doorID.authorizedJobs, 1 do
+		if doorID.authorizedJobs[i] == PlayerData.job.name then
+                  doorID.IsAuthorized = true
+		  return true
+            	 end
+		end
+	else
+	  for _,job in pairs(doorID.authorizedJobs) do
+        	if job == PlayerData.job.name then
+                  doorID.IsAuthorized = true
+		  return true
+            	 end
+           end
+	end
         for _,gang in pairs(doorID.authorizedGang or {}) do
             if gang == PlayerData.gang.name then
                 doorID.IsAuthorized = true
